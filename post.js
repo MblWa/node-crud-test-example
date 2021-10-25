@@ -53,12 +53,12 @@
 //     console.log(data); // JSON data parsed by `response.json()` call
 //   });
 
-// deleteData('http://localhost:8001/api/users/', "5afb655e-7c06-49db-a442-e76933f17c8e")
+// deleteData('http://localhost:8001/api/users/', "4ce2cd85-2235-4bf8-bdb5-34ec9afc48a5")
 //   .then((data) => {
 //     console.log(data); // JSON data parsed by `response.json()` call
 //   });
 
 // putData('http://localhost:8001/api/users/', '5afb655e-7c06-49db-a442-e76933f17c8e', { name: 'test', age: 1 })
-//   .then((data) => {
-//     console.log(data); // JSON data parsed by `response.json()` call
-//   });
+  // .then((data) => {
+  //   console.log(data); // JSON data parsed by `response.json()` call
+  // });
