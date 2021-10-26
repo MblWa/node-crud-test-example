@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { addUserToDB, getAllUsersFromDB, getUserByIDfromDB, updateUserByIDFromDB, deleteUserByIDFromDB } = require('../DAL/usersDAL');
 
-
 module.exports = class User {
   constructor(name, age) {
     this.name = name;

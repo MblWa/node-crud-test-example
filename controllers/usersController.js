@@ -1,14 +1,15 @@
 const User = require('../models/user.js');
 
 module.exports = {
-  getUsers: function (req, res) {
-    res.send(User.getAllUsers());
+  getUsers: async function (req, res) {
+    const allUsers = await User.getAllUsers()
+    res.send(allUsers);
   },
 
-  getUserById: function (req, res) {
+  getUserById: async function (req, res) {
     const { id } = req.params;
-    const result = User.getUserById(id);
-    if (result) {
+    const result = await User.getUserById(id);
+    if (result.length !== 0) {
       res.send(result);
     } else {
       res.status(404).send();
@@ -25,12 +26,12 @@ module.exports = {
     res.send(user);
   },
 
-  updateUserById: function (req, res) {
+  updateUserById: async function (req, res) {
     if (!req.body) return res.sendStatus(400);
   
     const { id } = req.params;
     const { name, age } = req.body;
-    let result = User.updateUserById(id, { name, age });
+    let result = await User.updateUserById(id, { name, age });
   
     if (result) {
       res.send(result);
@@ -40,9 +41,9 @@ module.exports = {
     }
   },
 
-  deleteUserById: function (req, res) {
+  deleteUserById: async function (req, res) {
     const { id } = req.params;
-    const result = User.deleteUserById(id);
+    const result = await User.deleteUserById(id);
   
     if (result) {
       res.send(result);

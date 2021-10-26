@@ -1,66 +1,37 @@
-const { findUserIdById } = require('../util.js');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const UserSchema = new Schema({
+  id: String,
+  name: String,
+  age: Number,
+});
 
-const users = [
-  {
-    "id": "4ce2cd85-2235-4bf8-bdb5-34ec9afc48a5",
-    "name": "Tom",
-    "age": 24
-  },
-  {
-    "id": "c08355f4-5caa-48ac-b056-24d3c2cbefef",
-    "name": "Bob",
-    "age": 27
-  },
-  {
-    "id": "c08355f4-5caa-48ac-b056-24d3c2cbefe1",
-    "name": "Alice",
-    "age": 42
-  },
-  {
-    "id": "5afb655e-7c06-49db-a442-e76933f17c8e",
-    "name": "Anasstasia",
-    "age": 42
-  }
-];
+const User = mongoose.model('UserModel', UserSchema);
 
 module.exports = {
-  addUserToDB: function(user) {
-    users.push(user);
+  addUserToDB: function (userData) {
+    const user = new User({ id: userData.id, name: userData.name, age: userData.age });
+    user.save(function (err) {
+      if (err) {
+        console.log(err);
+        return undefined;
+      }
+    });
   },
 
-  getUserByIDfromDB: function(id) {
-    const userId = findUserIdById(users, id);
-    if (userId !== -1) {
-      return users[userId];
-    } else {
-      return undefined;
-    }
+  getUserByIDfromDB: function (id) {
+    return User.find({ id }, { _id: 0, id: 1, name: 1, age: 1 });
   },
 
-  updateUserByIDFromDB: function(id, name, age) {
-    const userId = findUserIdById(users, id);
-  
-    if (userId !== -1) {
-      users[userId].name = name;
-      users[userId].age = age;
-  
-      return users[userId];
-    } else {
-      return undefined;
-    }
+  updateUserByIDFromDB: function (id, name, age) {
+    return User.findOneAndUpdate({ id }, { name, age }, { projection: { _id: 0, id: 1, name: 1, age: 1 }, new: true });
   },
 
-  deleteUserByIDFromDB: function(id) {
-    const userId = findUserIdById(users, id);
-  
-    if (userId !== -1) { 
-      return users.splice(userId, 1)[0];
-    } else {
-      return undefined;
-    }
+  deleteUserByIDFromDB: function (id) {
+    return User.findOneAndDelete({ id }, { projection: { _id: 0, id: 1, name: 1, age: 1 } });
   },
 
-  getAllUsersFromDB: function() {
-    return users;
+  getAllUsersFromDB: function () {
+    return User.find({}, { _id: 0, id: 1, name: 1, age: 1 });
   },
 };
